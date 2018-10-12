@@ -1,19 +1,28 @@
 # lru cache
 
-A cache object that deletes the least-recently-used items.
+A LRU implements based on [isaacs/node-lru-cache](https://github.com/isaacs/node-lru-cache)
 
-[![Build Status](https://travis-ci.org/isaacs/node-lru-cache.svg?branch=master)](https://travis-ci.org/isaacs/node-lru-cache) [![Coverage Status](https://coveralls.io/repos/isaacs/node-lru-cache/badge.svg?service=github)](https://coveralls.io/github/isaacs/node-lru-cache)
+But with some improvement and dependencies cleanup:
+
+* Remove dependencies: `pseudomap`, `util`.
+* delete `LRUCache.prototype.inspect`.
+* publish npm as @allex/lru-cache instead.
+* Add builtin typescript definitions by [@types/lru-cache](https://www.npmjs.com/package/@types/lru-cache)
+
+
+[![Build Status](https://travis-ci.org/allex/lru-cache.svg?branch=master)](https://travis-ci.org/allex/lru-cache) [![Coverage Status](https://coveralls.io/repos/allex/lru-cache/badge.svg?service=github)](https://coveralls.io/github/allex/lru-cache)
+
 
 ## Installation:
 
 ```javascript
-npm install lru-cache --save
+npm install @allex/lru-cache --save
 ```
 
 ## Usage:
 
 ```javascript
-var LRU = require("lru-cache")
+var LRU = require("@allex/lru-cache")
   , options = { max: 500
               , length: function (n, key) { return n * 2 + key.length }
               , dispose: function (key, n) { n.close() }
