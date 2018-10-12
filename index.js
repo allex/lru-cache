@@ -18,6 +18,7 @@ if (hasSymbol) {
   }
 }
 
+var defp = Object.defineProperty
 var MAX = makeSymbol('max')
 var LENGTH = makeSymbol('length')
 var LENGTH_CALCULATOR = makeSymbol('lengthCalculator')
@@ -72,8 +73,10 @@ function LRUCache (options) {
   this.reset()
 }
 
+var _proto = LRUCache.prototype
+
 // resize the cache when the max changes.
-Object.defineProperty(LRUCache.prototype, 'max', {
+defp(_proto, 'max', {
   set: function (mL) {
     if (!mL || !(typeof mL === 'number') || mL <= 0) {
       mL = Infinity
@@ -87,7 +90,7 @@ Object.defineProperty(LRUCache.prototype, 'max', {
   enumerable: true
 })
 
-Object.defineProperty(LRUCache.prototype, 'allowStale', {
+defp(_proto, 'allowStale', {
   set: function (allowStale) {
     this[ALLOW_STALE] = !!allowStale
   },
@@ -97,7 +100,7 @@ Object.defineProperty(LRUCache.prototype, 'allowStale', {
   enumerable: true
 })
 
-Object.defineProperty(LRUCache.prototype, 'maxAge', {
+defp(_proto, 'maxAge', {
   set: function (mA) {
     if (!mA || !(typeof mA === 'number') || mA < 0) {
       mA = 0
@@ -112,7 +115,7 @@ Object.defineProperty(LRUCache.prototype, 'maxAge', {
 })
 
 // resize the cache when the lengthCalculator changes.
-Object.defineProperty(LRUCache.prototype, 'lengthCalculator', {
+defp(_proto, 'lengthCalculator', {
   set: function (lC) {
     if (typeof lC !== 'function') {
       lC = naiveLength
@@ -131,17 +134,22 @@ Object.defineProperty(LRUCache.prototype, 'lengthCalculator', {
   enumerable: true
 })
 
-Object.defineProperty(LRUCache.prototype, 'length', {
+defp(_proto, 'size', {
   get: function () { return this[LENGTH] },
   enumerable: true
 })
 
-Object.defineProperty(LRUCache.prototype, 'itemCount', {
+defp(_proto, 'length', {
+  get: function () { return this[LENGTH] },
+  enumerable: true
+})
+
+defp(_proto, 'itemCount', {
   get: function () { return this[LRU_LIST].length },
   enumerable: true
 })
 
-LRUCache.prototype.rforEach = function (fn, thisp) {
+_proto.rforEach = function (fn, thisp) {
   thisp = thisp || this
   for (var walker = this[LRU_LIST].tail; walker !== null;) {
     var prev = walker.prev
@@ -163,7 +171,7 @@ function forEachStep (self, fn, node, thisp) {
   }
 }
 
-LRUCache.prototype.forEach = function (fn, thisp) {
+_proto.forEach = function (fn, thisp) {
   thisp = thisp || this
   for (var walker = this[LRU_LIST].head; walker !== null;) {
     var next = walker.next
@@ -172,19 +180,20 @@ LRUCache.prototype.forEach = function (fn, thisp) {
   }
 }
 
-LRUCache.prototype.keys = function () {
+_proto.keys = function () {
   return this[LRU_LIST].toArray().map(function (k) {
     return k.key
   }, this)
 }
 
-LRUCache.prototype.values = function () {
+_proto.values = function () {
   return this[LRU_LIST].toArray().map(function (k) {
     return k.value
   }, this)
 }
 
-LRUCache.prototype.reset = function () {
+_proto.clear =
+_proto.reset = function () {
   if (this[DISPOSE] &&
       this[LRU_LIST] &&
       this[LRU_LIST].length) {
@@ -198,7 +207,7 @@ LRUCache.prototype.reset = function () {
   this[LENGTH] = 0 // length of items in the list
 }
 
-LRUCache.prototype.dump = function () {
+_proto.dump = function () {
   return this[LRU_LIST].map(function (hit) {
     if (!isStale(this, hit)) {
       return {
@@ -212,11 +221,11 @@ LRUCache.prototype.dump = function () {
   })
 }
 
-LRUCache.prototype.dumpLru = function () {
+_proto.dumpLru = function () {
   return this[LRU_LIST]
 }
 
-LRUCache.prototype.set = function (key, value, maxAge) {
+_proto.set = function (key, value, maxAge) {
   maxAge = maxAge || this[MAX_AGE]
 
   var now = maxAge ? Date.now() : 0
@@ -266,7 +275,7 @@ LRUCache.prototype.set = function (key, value, maxAge) {
   return true
 }
 
-LRUCache.prototype.has = function (key) {
+_proto.has = function (key) {
   if (!this[CACHE].has(key)) return false
   var hit = this[CACHE].get(key).value
   if (isStale(this, hit)) {
@@ -275,26 +284,27 @@ LRUCache.prototype.has = function (key) {
   return true
 }
 
-LRUCache.prototype.get = function (key) {
+_proto.get = function (key) {
   return get(this, key, true)
 }
 
-LRUCache.prototype.peek = function (key) {
+_proto.peek = function (key) {
   return get(this, key, false)
 }
 
-LRUCache.prototype.pop = function () {
+_proto.pop = function () {
   var node = this[LRU_LIST].tail
   if (!node) return null
   del(this, node)
   return node.value
 }
 
-LRUCache.prototype.del = function (key) {
+_proto['delete'] =
+_proto.del = function (key) {
   del(this, this[CACHE].get(key))
 }
 
-LRUCache.prototype.load = function (arr) {
+_proto.load = function (arr) {
   // reset the cache
   this.reset()
 
@@ -316,7 +326,7 @@ LRUCache.prototype.load = function (arr) {
   }
 }
 
-LRUCache.prototype.prune = function () {
+_proto.prune = function () {
   var self = this
   this[CACHE].forEach(function (value, key) {
     get(self, key, false)

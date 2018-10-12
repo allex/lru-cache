@@ -88,6 +88,8 @@ away.
 
 ## API
 
+The API imitates that of [`Map`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map), which means that in most cases you can use `LRUCache` as a drop-in replacement for `Map`.
+
 * `set(key, value, maxAge)`
 * `get(key) => value`
 
@@ -108,12 +110,14 @@ away.
     wrong sort of data structure, but there are some use cases where
     it's handy.)
 
-* `del(key)`
+* `del(key)` 
 
+    alias to `.delete(key)`;
     Deletes a key out of the cache.
 
 * `reset()`
 
+    alias to `.clear()`;
     Clear the cache entirely, throwing away all values.
 
 * `has(key)`

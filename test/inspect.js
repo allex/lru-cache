@@ -53,7 +53,8 @@ LRU.prototype.inspect = function (n, opts) {
     if (extras) {
       str += ','
     }
-    str += '\n  length: ' + util.inspect(this.length, opts)
+    str += '\n  size: ' + util.inspect(this.size, opts)
+    str += ',\n  length: ' + util.inspect(this.length, opts)
     extras = true
   }
 
@@ -125,18 +126,18 @@ setTimeout(function () {
   inspect('LRUCache {\n  allowStale: true,\n  max: 10,\n\n  1 => { value: { a: { b: [Object] } } }\n}')
 
   l.lengthCalculator = function () { return 5 }
-  inspect('LRUCache {\n  allowStale: true,\n  max: 10,\n  length: 5,\n\n  1 => { value: { a: { b: [Object] } }, length: 5 }\n}')
+  inspect('LRUCache {\n  allowStale: true,\n  max: 10,\n  size: 5,\n  length: 5,\n\n  1 => { value: { a: { b: [Object] } }, length: 5 }\n}')
 
   l.max = 0
-  inspect('LRUCache {\n  allowStale: true,\n  length: 5,\n\n  1 => { value: { a: { b: [Object] } }, length: 5 }\n}')
+  inspect('LRUCache {\n  allowStale: true,\n  size: 5,\n  length: 5,\n\n  1 => { value: { a: { b: [Object] } }, length: 5 }\n}')
 
   l.maxAge = 100
-  inspect('LRUCache {\n  allowStale: true,\n  maxAge: 100,\n  length: 5,\n\n  1 => { value: { a: { b: [Object] } }, maxAge: 0, length: 5 }\n}')
+  inspect('LRUCache {\n  allowStale: true,\n  maxAge: 100,\n  size: 5,\n  length: 5,\n\n  1 => { value: { a: { b: [Object] } }, maxAge: 0, length: 5 }\n}')
   l.allowStale = false
-  inspect('LRUCache {\n  maxAge: 100,\n  length: 5,\n\n  1 => { value: { a: { b: [Object] } }, maxAge: 0, length: 5 }\n}')
+  inspect('LRUCache {\n  maxAge: 100,\n  size: 5,\n  length: 5,\n\n  1 => { value: { a: { b: [Object] } }, maxAge: 0, length: 5 }\n}')
 
   l.maxAge = 0
-  inspect('LRUCache {\n  length: 5,\n\n  1 => { value: { a: { b: [Object] } }, length: 5 }\n}')
+  inspect('LRUCache {\n  size: 5,\n  length: 5,\n\n  1 => { value: { a: { b: [Object] } }, length: 5 }\n}')
 
   l.lengthCalculator = null
   inspect('LRUCache {\n  1 => { value: { a: { b: [Object] } } }\n}')
