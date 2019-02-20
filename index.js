@@ -97,6 +97,9 @@ class LRUCache {
   get lengthCalculator () { return this[LENGTH_CALCULATOR] }
 
   get length () { return this[LENGTH] }
+
+  get size() { return this[LENGTH] }
+
   get itemCount () { return this[LRU_LIST].length }
 
   rforEach (fn, thisp) {
@@ -330,5 +333,11 @@ const forEachStep = (self, fn, node, thisp) => {
   if (hit)
     fn.call(thisp, hit.value, hit.key, self)
 }
+
+// build some APIs imitates that of Map
+const __proto__ = LRUCache.prototype
+;[['clear', 'reset'], ['delete', 'del']].forEach(([k, n]) => {
+  __proto__[k] = __proto__[n]
+})
 
 module.exports = LRUCache

@@ -77,6 +77,9 @@ declare namespace LRU {
          */
         readonly length: number;
 
+        /** @alias length */
+        readonly size: number;
+
         /**
          * Return total quantity of objects currently in cache. Note,
          * that `stale` (see options) items are returned as part of this item count.
@@ -137,10 +140,16 @@ declare namespace LRU {
          */
         del(key: K): void;
 
+        /** @alias del */
+        delete(key: K): void;
+
         /**
          * Clear the cache entirely, throwing away all values.
          */
         reset(): void;
+
+        /** @alias reset */
+        clear(): void;
 
         /**
          * Manually iterates over the entire cache proactively pruning old entries.

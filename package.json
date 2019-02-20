@@ -1,5 +1,5 @@
 {
-  "name": "lru-cache",
+  "name": "@allex/lru-cache",
   "description": "A cache object that deletes the least-recently-used items.",
   "version": "5.1.1",
   "author": "Isaac Z. Schlueter <i@izs.me>",
@@ -17,7 +17,8 @@
     "postpublish": "git push origin --all; git push origin --tags"
   },
   "main": "index.js",
-  "repository": "git://github.com/isaacs/node-lru-cache.git",
+  "types": "index.d.ts",
+  "repository": "allex/lru-cache",
   "devDependencies": {
     "benchmark": "^2.1.4",
     "tap": "^12.1.0"
@@ -27,6 +28,10 @@
     "yallist": "^3.0.2"
   },
   "files": [
-    "index.js"
-  ]
+    "index.js",
+    "index.d.ts"
+  ],
+  "engines": {
+    "node": ">=6.4.0"
+  }
 }

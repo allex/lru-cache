@@ -7,6 +7,7 @@ test('basic', function (t) {
   t.equal(cache.get('key'), 'value')
   t.equal(cache.get('nada'), undefined)
   t.equal(cache.length, 1)
+  t.equal(cache.size, 1)
   t.equal(cache.max, 10)
   t.end()
 })
