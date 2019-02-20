@@ -69,6 +69,15 @@ declare namespace LRU {
          * not when it is overwritten.
          */
         noDisposeOnSet?: boolean;
+
+        /**
+         * When using time-expiring entries with maxAge, setting this to true will
+         * make each item's effective time update to the current time whenever it is
+         * retrieved from cache, causing it to not expire. (It can still fall out of
+         * cache based on recency of use, of course.)
+         * Defaults to false
+         */
+        updateAgeOnGet?: boolean;
     }
 
     interface Cache<K, V> {

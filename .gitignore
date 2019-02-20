@@ -2,3 +2,5 @@
 .nyc_output
 nyc_output
 coverage
+package-lock.json
+*.gz
